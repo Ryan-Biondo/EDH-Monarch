@@ -1,6 +1,8 @@
+'use client';
 import { Container, Flex } from '@radix-ui/themes';
 import Link from 'next/link';
 import { GiCrownedSkull } from 'react-icons/gi';
+import { usePathname } from 'next/navigation';
 
 const NavBar = () => {
   return (
@@ -21,17 +23,22 @@ const NavBar = () => {
 };
 
 const NavLinks = () => {
+  const currentPath = usePathname();
   const links = [
     { label: 'Home', href: '/' },
     { label: 'Players', href: '/players' },
     { label: 'Games', href: '/games' },
   ];
+
   return (
     <ul className="flex space-x-6">
       {links.map(({ href, label }) => (
         <li key={label}>
-          <Link href={href} className="text-zinc-900 hover:text-zinc-400">
-            {/* className="text-zinc-900 dark:text-gray-300 hover:text-zinc-400 dark:hover:text-white" */}
+          <Link
+            href={href}
+            className={`${
+              href === currentPath ? 'text-zinc-900' : 'text-zinc-500'
+            } hover:text-zinc-800 transition-colors`}>
             {label}
           </Link>
         </li>
