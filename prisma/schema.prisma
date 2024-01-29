@@ -17,14 +17,25 @@ model Game {
   gameDescriptor GameDescriptor?
   players        Json
   winner         String?
+  gameCommanders GameCommander[]
 }
 
 model Commander {
-  id       Int     @id @default(autoincrement())
+  id       Int             @id @default(autoincrement())
   name     String
   manaCost Int?
   colors   String
   imageUrl String?
+  games    GameCommander[]
+}
+
+model GameCommander {
+  gameId      Int
+  commanderId Int
+  game        Game      @relation(fields: [gameId], references: [id])
+  commander   Commander @relation(fields: [commanderId], references: [id])
+
+  @@id([gameId, commanderId])
 }
 
 enum GameDescriptor {
