@@ -21,19 +21,19 @@ model Game {
 }
 
 model Commander {
-  id       Int             @id @default(autoincrement())
-  name     String
-  manaCost Int?
-  colors   String
-  imageUrl String?
-  games    GameCommander[]
+  scryfallId String          @id
+  name       String
+  manaCost   Int
+  imageUrl   String
+  colors     String // Representing color identity as an array of strings
+  games      GameCommander[]
 }
 
 model GameCommander {
   gameId      Int
-  commanderId Int
+  commanderId String
   game        Game      @relation(fields: [gameId], references: [id])
-  commander   Commander @relation(fields: [commanderId], references: [id])
+  commander   Commander @relation(fields: [commanderId], references: [scryfallId])
 
   @@id([gameId, commanderId])
 }
