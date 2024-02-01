@@ -17,7 +17,7 @@ const commanders = cardsData
     const smallImageUrl =
       card.image_uris?.small || card.card_faces?.[0].image_uris?.small;
     return {
-      scryfallId: card.id, // Include the ID from the API
+      scryfallId: card.id,
       name: card.name,
       cmc: card.cmc,
       color_identity: card.color_identity,
@@ -25,15 +25,13 @@ const commanders = cardsData
     };
   });
 
-// Convert the filtered and reshaped array to a JSON string
+// Convert to a JSON string
 const dataToWrite = JSON.stringify(commanders, null, 2);
 
-// Write to a single file
-const fileName = 'bulkCommanders.json';
-fs.writeFile(fileName, dataToWrite, 'utf-8', (err) => {
+fs.writeFile('bulkCommanders.json', dataToWrite, 'utf-8', (err) => {
   if (err) {
-    console.error(`An error occurred writing ${fileName}:`, err);
+    console.error('An error occurred writing bulkCommanders.json', err);
     return;
   }
-  console.log(`${fileName} has been written`);
+  console.log('bulkCommanders.json has been written successfully!');
 });
