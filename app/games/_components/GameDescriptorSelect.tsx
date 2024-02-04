@@ -11,7 +11,6 @@ const gameDescriptors = [
   { value: 'CloseCall', label: 'Close Call' },
   { value: 'Dominance', label: 'Dominance' },
   { value: 'Chaos', label: 'Chaos' },
-  // Add more descriptors as per your enum
 ];
 
 const GameDescriptorSelect = ({ onValueChange }: GameDescriptorSelectProps) => (

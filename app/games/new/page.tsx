@@ -11,11 +11,12 @@ const playerOptions = [
   { value: 'player2', label: 'Player 2' },
   { value: 'player3', label: 'Player 3' },
   { value: 'player4', label: 'Player 4' },
-  // Add more player options as needed
+  { value: 'player5', label: 'Player 5' },
+  { value: 'player6', label: 'Player 6' },
 ];
 
 const NewGamePage = () => {
-  const [playerCount, setPlayerCount] = useState(4); // Start with 4 players
+  const [playerCount, setPlayerCount] = useState(4);
   const [gameDescriptor, setGameDescriptor] = useState('');
   const [winner, setWinner] = useState('');
 
@@ -23,7 +24,6 @@ const NewGamePage = () => {
   const removePlayer = () =>
     setPlayerCount((prevCount) => Math.max(2, prevCount - 1));
 
-  // In your NewGamePage component
   return (
     <div>
       <Box>
