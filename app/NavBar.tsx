@@ -1,8 +1,8 @@
 'use client';
 import { Container, Flex } from '@radix-ui/themes';
 import Link from 'next/link';
-import { GiCrownedSkull } from 'react-icons/gi';
 import { usePathname } from 'next/navigation';
+import { GiCrownedSkull } from 'react-icons/gi';
 
 const NavBar = () => {
   return (
