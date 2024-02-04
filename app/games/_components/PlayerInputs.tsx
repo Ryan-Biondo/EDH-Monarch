@@ -1,4 +1,4 @@
-import { Box, Flex, Grid, Select, TextField } from '@radix-ui/themes';
+import { Box, Grid, Select, TextField } from '@radix-ui/themes';
 
 interface PlayerOption {
   value: string;
