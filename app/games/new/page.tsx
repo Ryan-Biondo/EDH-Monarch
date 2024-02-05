@@ -47,10 +47,9 @@ const NewGamePage = () => {
         />
       </div>
 
-      <Flex gap="5" mb="6" mr="9" justify="end">
+      <Flex gap="5" mb="6" mr="9" justify="center">
         <Button
           size="3"
-          color="crimson"
           variant="soft"
           onClick={removePlayer}
           disabled={playerCount <= 2}>
@@ -80,7 +79,7 @@ const NewGamePage = () => {
       </Box>
 
       <Flex gap="4" justify="end">
-        <Button size="3" color="crimson" variant="soft">
+        <Button size="3" color="gray" variant="soft">
           Cancel
         </Button>
         <Button size="3">Create</Button>
