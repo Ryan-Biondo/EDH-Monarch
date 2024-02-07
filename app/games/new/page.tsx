@@ -5,6 +5,14 @@ import React, { useState } from 'react';
 import GameDescriptorSelect from '../_components/GameDescriptorSelect';
 import WinnerSelect from '../_components/WinnerSelect';
 import PlayerInputs from '../_components/PlayerInputs';
+import { useForm } from 'react-hook-form';
+
+interface GameForm {
+  players: string[];
+  commanders: string[];
+  gameDescriptor: string;
+  winner: string;
+}
 
 const playerOptions = [
   { value: 'player1', label: 'Player 1' },

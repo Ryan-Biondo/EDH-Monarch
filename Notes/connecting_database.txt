@@ -1,0 +1,3 @@
+React Hook Form is good for form submission, tracking changes, and displaying validation errors
+
+React select? for searchable commander dropdowns, maybe also use that for the other fields.
