@@ -1,0 +1,33 @@
+Accomplishments and Technologies Overview:
+Data Management and API Design:
+
+Processed JSON data of Magic: The Gathering cards to filter legal commanders and performed a bulk upload to the MySQL database.
+Developed RESTful API endpoints with Next.js for managing game sessions and commander data, focusing on CRUD operations and data integrity.
+Database Integration:
+
+Used Prisma ORM with MySQL as the database backend, enabling efficient data management, schema migrations, and query building.
+Designed relational database models to handle complex data relationships between games, players, and commanders.
+Frontend Development:
+
+Built dynamic and responsive UI components using React and Next.js, including forms for game session creation and commander selection.
+Incorporated Radix UI for accessible and customizable UI components, enhancing the application's interactivity and design.
+State Management:
+
+Utilized React's useState hook for managing local state within components, particularly for dynamically managing player inputs.
+Styling and Layout:
+
+Applied CSS for styling, utilizing Radix UI's theming capabilities to achieve a cohesive look and feel.
+Leveraged Flexbox and CSS Grid for responsive layout design, ensuring the UI adapts to various screen sizes and user interactions.
+User Experience Design:
+
+Implemented UI logic to cap the number of players and manage dynamic changes in the UI, such as adding/removing players, to enhance user experience.
+Technologies Used:
+Next.js: For building server-side rendered and statically generated web applications with React.
+React: For creating interactive and stateful UI components.
+Radix UI: For building highly customizable and accessible UI components.
+Prisma: As the ORM for application data modeling, CRUD operations, and database management with MySQL.
+MySQL: The chosen relational database management system for storing and querying application data.
+Concepts Explored:
+Bulk Data Upload: Developed a method for processing and uploading a large dataset of commander cards into the MySQL database.
+API Design and Development: Crafted and implemented API endpoints for handling game and commander data, with a focus on performance and scalability.
+Complex Data Types and Forms: Considered the use of complex data types and form structures to accurately represent and manage the relationships between different entities in the game management system.
