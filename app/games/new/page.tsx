@@ -1,18 +1,16 @@
 'use client';
 
-import { Box, Button, Flex, Grid, Heading } from '@radix-ui/themes';
+import {
+  Box,
+  Button,
+  Flex,
+  Grid,
+  Heading,
+  Select,
+  TextField,
+} from '@radix-ui/themes';
 import React, { useState } from 'react';
-import GameDescriptorSelect from '../_components/GameDescriptorSelect';
-import WinnerSelect from '../_components/WinnerSelect';
-import PlayerInputs from '../_components/PlayerInputs';
-import { useForm } from 'react-hook-form';
-
-interface GameForm {
-  players: string[];
-  commanders: string[];
-  gameDescriptor: string;
-  winner: string;
-}
+import { useForm, Controller } from 'react-hook-form';
 
 const playerOptions = [
   { value: 'player1', label: 'Player 1' },
@@ -22,8 +20,18 @@ const playerOptions = [
   { value: 'player5', label: 'Player 5' },
   { value: 'player6', label: 'Player 6' },
 ];
+const gameDescriptors = [
+  { value: 'QuickMatch', label: 'Quick Match' },
+  { value: 'Marathon', label: 'Marathon' },
+  { value: 'Upset', label: 'Upset' },
+  { value: 'CloseCall', label: 'Close Call' },
+  { value: 'Dominance', label: 'Dominance' },
+  { value: 'Chaos', label: 'Chaos' },
+];
 
 const NewGamePage = () => {
+  const { register, control, handleSubmit } = useForm();
+
   const [playerCount, setPlayerCount] = useState(4);
   const [gameDescriptor, setGameDescriptor] = useState('');
   const [winner, setWinner] = useState('');
@@ -33,7 +41,7 @@ const NewGamePage = () => {
     setPlayerCount((prevCount) => Math.max(2, prevCount - 1));
 
   return (
-    <div>
+    <form onSubmit={handleSubmit((data) => console.log(data))}>
       <Box>
         <Flex gap="2" my="4" justify="center">
           <Heading as="h2" mb="2" size="4">
@@ -48,11 +56,42 @@ const NewGamePage = () => {
         <Heading as="h3" mb="2" size="3">
           Players:
         </Heading>
-        <PlayerInputs
-          playerCount={playerCount}
-          playerOptions={playerOptions}
-          onWinnerSelect={setWinner}
-        />
+
+        {Array.from({ length: playerCount }, (_, index) => (
+          <Grid key={index} columns="3" width="100%" gap="5" mb="6">
+            <Controller
+              name={`player [${index}]`}
+              control={control}
+              render={({ field }) => (
+                <Select.Root onValueChange={setWinner}>
+                  <Select.Trigger
+                    placeholder={`Player ${index + 1} Selection`}
+                  />
+                  <Select.Content>
+                    {playerOptions.map((option) => (
+                      <Select.Item
+                        {...field}
+                        key={option.value}
+                        value={option.value}>
+                        {option.label}
+                      </Select.Item>
+                    ))}
+                  </Select.Content>
+                </Select.Root>
+              )}
+            />
+
+            <TextField.Root>
+              <TextField.Input
+                placeholder={`Commander ${index + 1}`}
+                {...register('Commander')}
+              />
+            </TextField.Root>
+
+            {/* Placeholder for the commander image */}
+            <Box>Image {index + 1}</Box>
+          </Grid>
+        ))}
       </div>
 
       <Flex gap="5" mb="6" mr="9" justify="center">
@@ -72,17 +111,50 @@ const NewGamePage = () => {
         <Heading as="h3" mb="2" size="3">
           Game Description:
         </Heading>
-        <GameDescriptorSelect onValueChange={setGameDescriptor} />
+
+        <Controller
+          name="gameDescriptor"
+          control={control}
+          render={({ field }) => (
+            <Select.Root onValueChange={setGameDescriptor}>
+              <Select.Trigger placeholder="Game Descriptor Selection" />
+              <Select.Content>
+                {gameDescriptors.map((descriptor) => (
+                  <Select.Item
+                    {...field}
+                    key={descriptor.value}
+                    value={descriptor.value}>
+                    {descriptor.label}
+                  </Select.Item>
+                ))}
+              </Select.Content>
+            </Select.Root>
+          )}
+        />
       </Box>
 
       <Box mb="6">
         <Heading as="h3" mb="2" size="3">
           Winner:
         </Heading>
-        <WinnerSelect
-          playerOptions={playerOptions}
-          playerCount={playerCount}
-          onValueChange={setWinner}
+        <Controller
+          name="winner"
+          control={control}
+          render={({ field }) => (
+            <Select.Root onValueChange={setWinner}>
+              <Select.Trigger placeholder="Winner Selection" />
+              <Select.Content>
+                {playerOptions.slice(0, playerCount).map((option) => (
+                  <Select.Item
+                    {...field}
+                    key={option.value}
+                    value={option.value}>
+                    {option.label}
+                  </Select.Item>
+                ))}
+              </Select.Content>
+            </Select.Root>
+          )}
         />
       </Box>
 
@@ -90,9 +162,12 @@ const NewGamePage = () => {
         <Button size="3" color="gray" variant="soft">
           Cancel
         </Button>
-        <Button size="3">Create</Button>
+        <Button type="submit" size="3">
+          Create
+        </Button>
       </Flex>
-    </div>
+    </form>
   );
 };
+
 export default NewGamePage;
