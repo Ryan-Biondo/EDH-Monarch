@@ -1,3 +1,7 @@
 React Hook Form is good for form submission, tracking changes, and displaying validation errors
+add {...register('Commander')} properties or wrap complex forms in a controller
+
+use axios to connect the api
+useRouter from next/navigation for actually sending the user to the next page
 
 React select? for searchable commander dropdowns, maybe also use that for the other fields.
