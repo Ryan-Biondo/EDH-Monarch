@@ -8,6 +8,21 @@ import { useRouter } from 'next/navigation';
 import Select from 'react-select';
 import { z } from 'zod';
 
+interface Option {
+  value: string;
+  label: string;
+}
+interface FormData {
+  players: {
+    [key: string]: Option;
+  };
+  commanders: {
+    [key: string]: Option;
+  };
+  gameDescriptor: Option;
+  winner: Option;
+}
+
 // export const gameFormSchema = z.object({
 //   players: z.array(z.string()).nonempty('At least one player is required.'),
 //   commanders: z
@@ -25,11 +40,11 @@ import { z } from 'zod';
 // });
 // type GameFormData = z.infer<typeof gameFormSchema>;
 
-interface SelectProps<Option = unknown> {
-  options: Option[];
-  value: Option;
-  onChange: (value: Option) => void;
-}
+// interface SelectProps<Option = unknown> {
+//   options: Option[];
+//   value: Option;
+//   onChange: (value: Option) => void;
+// }
 
 const playerOptions = [
   { value: 'player1', label: 'Player 1' },
@@ -58,12 +73,16 @@ const commanders = [
 
 const NewGameForm = () => {
   const router = useRouter();
-  const { control, handleSubmit } = useForm();
+  const { control, handleSubmit, setValue, getValues, reset } =
+    useForm<FormData>();
 
   const [playerCount, setPlayerCount] = useState(4);
   const addPlayer = () => setPlayerCount((prevCount) => prevCount + 1);
-  const removePlayer = () =>
-    setPlayerCount((prevCount) => Math.max(2, prevCount - 1));
+  const removePlayer = () => {
+    if (playerCount > 1) {
+      setPlayerCount((prevCount) => prevCount - 1);
+    }
+  };
 
   const onSubmit = handleSubmit(async (data) => {
     // const result = gameFormSchema.safeParse(data);
@@ -74,14 +93,15 @@ const NewGameForm = () => {
 
     // // Data is validated and can be used
     // const validData = result.data;
-    const validData = data;
 
-    // Construct your payload
+    console.log(data);
     const payload = {
-      players: validData.players,
-      commanders: validData.commanders,
-      gameDescriptor: validData.gameDescriptor,
-      winner: validData.winner,
+      players: Object.values(data.players).map((player) => player.value),
+      commanders: Object.values(data.commanders).map(
+        (commander) => commander.value
+      ),
+      gameDescriptor: data.gameDescriptor.value,
+      winner: data.winner.value,
     };
 
     try {
@@ -112,10 +132,10 @@ const NewGameForm = () => {
           Players:
         </Heading>
 
-        {Array.from({ length: playerCount }, (_, index) => (
+        {[...Array(playerCount)].map((_, index) => (
           <Grid key={index} columns="3" width="100%" gap="5" mb="6">
             <Controller
-              name={`player[${index}]`}
+              name={`players.player${index + 1}`}
               control={control}
               render={({ field }) => (
                 <Select
@@ -129,7 +149,7 @@ const NewGameForm = () => {
               )}
             />
             <Controller
-              name={`commander[${index}]`}
+              name={`commanders.commander${index + 1}`}
               control={control}
               render={({ field }) => <Select options={commanders} {...field} />}
             />
