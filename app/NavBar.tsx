@@ -15,7 +15,7 @@ const NavBar = () => {
             </Link>
             <NavLinks />
           </Flex>
-          <div>Login</div>
+          <Link href='/'>Login</Link>
         </Flex>
       </Container>
     </nav>
