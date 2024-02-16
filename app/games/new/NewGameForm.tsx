@@ -2,7 +2,7 @@
 
 import { Box, Button, Flex, Grid, Heading } from '@radix-ui/themes';
 import React, { useEffect, useState } from 'react';
-import { useForm, Controller, useFieldArray } from 'react-hook-form';
+import { useForm, Controller } from 'react-hook-form';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import Select from 'react-select';
@@ -55,22 +55,28 @@ const NewGameForm = () => {
       winner: { value: '', label: '' },
     },
   });
-  const onSubmit = async (data: FormData) => {
-    console.log(data);
+  const onSubmit = handleSubmit(async (data: FormData) => {
+      
+    // Prepare the payload with transformed data
     const payload = {
-      players: data.playerCommanderPairs.map((pair) => pair.player.value),
-      commanders: data.playerCommanderPairs.map((pair) => pair.commander.value),
+      players: JSON.stringify(data.playerCommanderPairs.map(pair => pair.player.value)),
+      // Assuming commanders can be submitted as an array of strings
+      commanders: data.playerCommanderPairs.map(pair => pair.commander.value),
       gameDescriptor: data.gameDescriptor.value,
       winner: data.winner.value,
     };
 
+    console.log(payload)
+  
     try {
       await axios.post('/api/games', payload);
+      console.log('Game created successfully');
       router.push('/games');
     } catch (error) {
       console.error('Error submitting game:', error);
     }
-  };
+  });
+  
 
   const [pairs, setPairs] = useState(Array(4).fill(initialPair));
 
@@ -78,20 +84,20 @@ const NewGameForm = () => {
   const removePair = () => setPairs((pairs) => pairs.slice(0, -1));
 
   // Reset form with updated pairs, gameDescriptor, and winner
-  const updateForm = () => {
-    reset({
-      playerCommanderPairs: pairs,
-      gameDescriptor: { value: '', label: '' },
-      winner: { value: '', label: '' },
-    });
-  };
   // Invoke updateForm whenever pairs change to ensure form reflects the state
   useEffect(() => {
+    const updateForm = () => {
+      reset({
+        playerCommanderPairs: pairs,
+        gameDescriptor: { value: '', label: '' },
+        winner: { value: '', label: '' },
+      });
+    };
     updateForm();
-  }, [pairs]);
+  }, [pairs, reset]);
 
   return (
-    <form className="space-y-3" onSubmit={handleSubmit(onSubmit)}>
+    <form className="space-y-3" onSubmit={onSubmit}>
       <Box>
         <Flex gap="2" my="4" justify="center">
           <Heading as="h2" mb="2" size="4">
